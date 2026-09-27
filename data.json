@@ -2,106 +2,459 @@
   "notes": {
     "Shanghai 2026": {
       "streets": {
-        "淮海中路": { "en": "Huaihai Middle Road", "color": "#AB47BC" },
-        "思南路":   { "en": "Sinan Road",          "color": "#7B1FA2" },
-        "新天地":   { "en": "Xintiandi",            "color": "#3949AB" }
+        "淮海中路": {
+          "en": "Huaihai Middle Road",
+          "color": "#AB47BC"
+        },
+        "思南路": {
+          "en": "Sinan Road",
+          "color": "#7B1FA2"
+        },
+        "新天地": {
+          "en": "Xintiandi",
+          "color": "#3949AB"
+        }
       },
       "places": [
         {
-          "id":"sh_001","name":"Housnowhere","nameEn":null,
-          "street":"淮海中路","mall":null,
-          "description":"巨人展、巨型米奇、银色F1 — giant immersive exhibition",
-          "category":"attraction","lat":31.2175,"lng":121.4583
+          "id": "sh_001",
+          "name": "Housnowhere",
+          "nameEn": null,
+          "street": "淮海中路",
+          "mall": null,
+          "description": "巨人展、巨型米奇、银色F1 — giant immersive exhibition",
+          "category": "attraction",
+          "lat": 31.2175,
+          "lng": 121.4583
         },
         {
-          "id":"sh_002","name":"Matcha Wang","nameEn":null,
-          "street":"淮海中路","mall":null,
-          "description":"刷屏ins的抹茶特调 — viral matcha drinks",
-          "category":"food","lat":31.2170,"lng":121.4610
+          "id": "sh_002",
+          "name": "Matcha Wang",
+          "nameEn": null,
+          "street": "淮海中路",
+          "mall": null,
+          "description": "刷屏ins的抹茶特调 — viral matcha drinks",
+          "category": "food",
+          "lat": 31.217,
+          "lng": 121.461
         },
         {
-          "id":"sh_003","name":"Hai550","nameEn":null,
-          "street":"淮海中路","mall":null,
-          "description":"7层楼的小众设计师集合店 — 7-floor designer concept store",
-          "category":"shopping","lat":31.21893,"lng":121.46459
+          "id": "sh_003",
+          "name": "Hai550",
+          "nameEn": null,
+          "street": "淮海中路",
+          "mall": null,
+          "description": "7层楼的小众设计师集合店 — 7-floor designer concept store",
+          "category": "shopping",
+          "lat": 31.21893,
+          "lng": 121.46459
         },
         {
-          "id":"sh_004","name":"Masonprince","nameEn":null,
-          "street":"淮海中路","mall":null,
-          "description":"漩涡泳池、戴VR的仿真人 — infinity pool + VR experience",
-          "category":"attraction","lat":31.2172,"lng":121.4543
+          "id": "sh_004",
+          "name": "Masonprince",
+          "nameEn": null,
+          "street": "淮海中路",
+          "mall": null,
+          "description": "漩涡泳池、戴VR的仿真人 — infinity pool + VR experience",
+          "category": "attraction",
+          "lat": 31.2172,
+          "lng": 121.4543
         },
         {
-          "id":"sh_005","name":"小嬛嬛","nameEn":null,
-          "street":"思南路","mall":null,
-          "description":"人均100+就能吃地道宁波菜 — authentic Ningbo cuisine",
-          "category":"food","lat":31.2186,"lng":121.4671
+          "id": "sh_005",
+          "name": "小嬛嬛",
+          "nameEn": null,
+          "street": "思南路",
+          "mall": null,
+          "description": "人均100+就能吃地道宁波菜 — authentic Ningbo cuisine",
+          "category": "food",
+          "lat": 31.2186,
+          "lng": 121.4671
         },
         {
-          "id":"sh_006","name":"思南公馆","nameEn":"Sinan Mansions",
-          "street":"思南路","mall":null,
-          "description":"51栋花园洋房、露天博物馆 — heritage garden villas turned open-air museum",
-          "category":"attraction","lat":31.21884,"lng":121.46609
+          "id": "sh_006",
+          "name": "思南公馆",
+          "nameEn": "Sinan Mansions",
+          "street": "思南路",
+          "mall": null,
+          "description": "51栋花园洋房、露天博物馆 — heritage garden villas turned open-air museum",
+          "category": "attraction",
+          "lat": 31.21884,
+          "lng": 121.46609
         },
         {
-          "id":"sh_007","name":"思南书局","nameEn":"Sinan Bookstore",
-          "street":"思南路","mall":null,
-          "description":"4层空间，建筑本身很有味道 — stunning 4-floor bookstore in heritage building",
-          "category":"attraction","lat":31.21538,"lng":121.46921
+          "id": "sh_007",
+          "name": "思南书局",
+          "nameEn": "Sinan Bookstore",
+          "street": "思南路",
+          "mall": null,
+          "description": "4层空间，建筑本身很有味道 — stunning 4-floor bookstore in heritage building",
+          "category": "attraction",
+          "lat": 31.21538,
+          "lng": 121.46921
         },
         {
-          "id":"sh_008","name":"周公馆","nameEn":"Zhou Gong Guan",
-          "street":"思南路","mall":null,
-          "description":"周恩来旧居，免门票不需要预约 — Zhou Enlai's former residence, free entry",
-          "category":"attraction","lat":31.21960,"lng":121.46640
+          "id": "sh_008",
+          "name": "周公馆",
+          "nameEn": "Zhou Gong Guan",
+          "street": "思南路",
+          "mall": null,
+          "description": "周恩来旧居，免门票不需要预约 — Zhou Enlai's former residence, free entry",
+          "category": "attraction",
+          "lat": 31.2196,
+          "lng": 121.4664
         },
         {
-          "id":"sh_009","name":"古董花园","nameEn":"Antique Garden",
-          "street":"思南路","mall":null,
-          "description":"10多年老店，《繁花》取景地 — filming location for TV drama 繁花",
-          "category":"attraction","lat":31.21660,"lng":121.46695
+          "id": "sh_009",
+          "name": "古董花园",
+          "nameEn": "Antique Garden",
+          "street": "思南路",
+          "mall": null,
+          "description": "10多年老店，《繁花》取景地 — filming location for TV drama 繁花",
+          "category": "attraction",
+          "lat": 31.2166,
+          "lng": 121.46695
         },
         {
-          "id":"sh_010","name":"KWL","nameEn":null,
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"2000平韩系服装 — massive Korean fashion store",
-          "category":"shopping","lat":31.21935,"lng":121.47498
+          "id": "sh_010",
+          "name": "KWL",
+          "nameEn": null,
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "2000平韩系服装 — massive Korean fashion store",
+          "category": "shopping",
+          "lat": 31.21935,
+          "lng": 121.47498
         },
         {
-          "id":"sh_011","name":"Piggyoo人生四格漫画","nameEn":"Piggyoo Comics",
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"弘大同款漫画专门店 — comics & merch shop (Hongdae style)",
-          "category":"shopping","lat":31.21672,"lng":121.47488
+          "id": "sh_011",
+          "name": "Piggyoo人生四格漫画",
+          "nameEn": "Piggyoo Comics",
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "弘大同款漫画专门店 — comics & merch shop (Hongdae style)",
+          "category": "shopping",
+          "lat": 31.21672,
+          "lng": 121.47488
         },
         {
-          "id":"sh_012","name":"三夏社","nameEn":null,
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"追星女孩必逛 — idol fan merch store",
-          "category":"shopping","lat":31.21660,"lng":121.47510
+          "id": "sh_012",
+          "name": "三夏社",
+          "nameEn": null,
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "追星女孩必逛 — idol fan merch store",
+          "category": "shopping",
+          "lat": 31.2166,
+          "lng": 121.4751
         },
         {
-          "id":"sh_013","name":"伦敦小狗面包","nameEn":"London Puppy Bakery",
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"高颜值面包 — instagrammable artisan bread",
-          "category":"food","lat":31.21920,"lng":121.47470
+          "id": "sh_013",
+          "name": "伦敦小狗面包",
+          "nameEn": "London Puppy Bakery",
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "高颜值面包 — instagrammable artisan bread",
+          "category": "food",
+          "lat": 31.2192,
+          "lng": 121.4747
         },
         {
-          "id":"sh_014","name":"Looknow Lab","nameEn":null,
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"超多Jellycat — largest Jellycat selection",
-          "category":"shopping","lat":31.21648,"lng":121.47532
+          "id": "sh_014",
+          "name": "Looknow Lab",
+          "nameEn": null,
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "超多Jellycat — largest Jellycat selection",
+          "category": "shopping",
+          "lat": 31.21648,
+          "lng": 121.47532
         },
         {
-          "id":"sh_015","name":"纽约贝果博物馆","nameEn":"NY Bagel Museum",
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"新天地老网红 — Xintiandi's most famous viral bagel spot",
-          "category":"food","lat":31.21905,"lng":121.47515
+          "id": "sh_015",
+          "name": "纽约贝果博物馆",
+          "nameEn": "NY Bagel Museum",
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "新天地老网红 — Xintiandi's most famous viral bagel spot",
+          "category": "food",
+          "lat": 31.21905,
+          "lng": 121.47515
         },
         {
-          "id":"sh_016","name":"HARMAY 话梅","nameEn":"HARMAY",
-          "street":"新天地","mall":"新天地 Xintiandi",
-          "description":"各种大牌护肤品化妆品旅行装 — luxury beauty travel sizes",
-          "category":"shopping","lat":31.21636,"lng":121.47500
+          "id": "sh_016",
+          "name": "HARMAY 话梅",
+          "nameEn": "HARMAY",
+          "street": "新天地",
+          "mall": "新天地 Xintiandi",
+          "description": "各种大牌护肤品化妆品旅行装 — luxury beauty travel sizes",
+          "category": "shopping",
+          "lat": 31.21636,
+          "lng": 121.475
+        },
+        {
+          "id": "hh_001",
+          "name": "香港广场",
+          "nameEn": "Hong Kong Plaza",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "大型购物中心，新旧品牌汇聚",
+          "category": "shopping",
+          "lat": 31.2155,
+          "lng": 121.4685
+        },
+        {
+          "id": "hh_002",
+          "name": "K11",
+          "nameEn": "K11 Art Mall",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "艺术购物中心，高端品牌+艺术展览",
+          "category": "shopping",
+          "lat": 31.219,
+          "lng": 121.4665
+        },
+        {
+          "id": "hh_003",
+          "name": "味香斋",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "老字号面馆，招牌两面黄",
+          "category": "food",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_004",
+          "name": "TX淮海年轻力中心",
+          "nameEn": "TX Huaihai",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "年轻潮流集合地，国潮品牌聚集",
+          "category": "shopping",
+          "lat": 31.2163,
+          "lng": 121.462
+        },
+        {
+          "id": "hh_005",
+          "name": "farmerbob",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "热门西式餐厅",
+          "category": "food",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_006",
+          "name": "沧浪亭",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "上海百年老字号苏州面馆",
+          "category": "food",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_007",
+          "name": "TYAKASHA",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": "淮海755",
+          "description": "人气国潮设计师品牌",
+          "category": "shopping",
+          "lat": 31.2189,
+          "lng": 121.4646
+        },
+        {
+          "id": "hh_008",
+          "name": "止痒商店",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": "淮海755",
+          "description": "创意玩具潮品集合店",
+          "category": "shopping",
+          "lat": 31.2189,
+          "lng": 121.4646
+        },
+        {
+          "id": "hh_009",
+          "name": "NIKO AND...",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": "淮海755",
+          "description": "日系生活方式品牌",
+          "category": "shopping",
+          "lat": 31.2189,
+          "lng": 121.4646
+        },
+        {
+          "id": "hh_010",
+          "name": "顶特勒",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "老上海西餐厅",
+          "category": "food",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_011",
+          "name": "红楼",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "历史建筑，老上海味道",
+          "category": "attraction",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_012",
+          "name": "光明邨大酒家",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "必打卡！老字号熟食+生煎，排队也值得",
+          "category": "food",
+          "lat": 31.2168,
+          "lng": 121.4533
+        },
+        {
+          "id": "hh_013",
+          "name": "红房子西菜",
+          "nameEn": "Chez Louis",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "上海最老的法餐厅，70年历史",
+          "category": "food",
+          "lat": 31.2162,
+          "lng": 121.4555
+        },
+        {
+          "id": "hh_014",
+          "name": "miniso pink",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "MINISO粉色主题店",
+          "category": "shopping",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_015",
+          "name": "itzy-bitzy礼物店",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "礼品创意小店",
+          "category": "shopping",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_016",
+          "name": "DEARYOU ZAKA SHOP",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "韩系潮牌精品店",
+          "category": "shopping",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_017",
+          "name": "国泰电影院",
+          "nameEn": "Cathay Cinema",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "1932年老影院，上海地标建筑",
+          "category": "attraction",
+          "lat": 31.2168,
+          "lng": 121.4515
+        },
+        {
+          "id": "hh_018",
+          "name": "淮海百盛",
+          "nameEn": "Parkson",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "百盛百货，品牌齐全",
+          "category": "shopping",
+          "lat": 31.2168,
+          "lng": 121.4492
+        },
+        {
+          "id": "hh_019",
+          "name": "巴黎春天",
+          "nameEn": "Printemps",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "法国百货品牌，上海旗舰店",
+          "category": "shopping",
+          "lat": 31.216,
+          "lng": 121.4505
+        },
+        {
+          "id": "hh_020",
+          "name": "tokukun",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "日系精品小店",
+          "category": "shopping",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_021",
+          "name": "LOOK NOW PARK",
+          "nameEn": null,
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "潮流买手集合店",
+          "category": "shopping",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "id": "hh_022",
+          "name": "IAPM环贸",
+          "nameEn": "IAPM Mall",
+          "street": "淮海中路",
+          "streetEn": "Huaihai Middle Road",
+          "mall": null,
+          "description": "高端购物中心，近陕西南路站",
+          "category": "shopping",
+          "lat": 31.2135,
+          "lng": 121.451
         }
       ]
     }
