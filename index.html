@@ -347,7 +347,9 @@ async function plotSelected(){
 
 function pin(p){
   const c=CAT_COLOR[p.category]||CAT_COLOR.other;
-  const url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name+' Shanghai')}&center=${p.lat},${p.lng}`;
+  const amapSearch=`https://uri.amap.com/search?keyword=${encodeURIComponent(p.name)}&city=上海&callnative=1`;
+  const amapCoord=p.lat?`iosamap://viewMap?sourceApplication=TravelPlanner&poiname=${encodeURIComponent(p.name)}&lat=${p.lat}&lon=${p.lng}&dev=0`:'';
+  const url=amapCoord||amapSearch;
   const note=allData.notes[currentNote];
   const stColor=(note?.streets?.[p.street]?.color)||c;
   const m=L.marker([p.lat,p.lng],{
@@ -360,7 +362,7 @@ function pin(p){
       <div class="pu-cat" style="color:${stColor}">${p.street||''} · ${CAT_LABEL[p.category]||''}</div>
       <div class="pu-name">${p.name}${p.nameEn?`<br><span style="font-size:11px;color:#aaa;font-weight:400">${p.nameEn}</span>`:''}</div>
       <div class="pu-desc">${p.description||''}</div>
-      <a class="pu-maps" href="${url}" target="_blank" style="background:${stColor}">Open in Google Maps →</a>
+      <a class="pu-maps" href="${url}" target="_blank" style="background:${stColor}">Open in Amap →</a>
     </div>`,{maxWidth:260}).addTo(map);
   plotted[p.id]=m;
 }
@@ -376,7 +378,7 @@ function mallPin(mallName,shops){
     iconSize:[0,0],iconAnchor:[0,0]});
   const rows=shops.map(s=>{
     const sc=CAT_COLOR[s.category]||CAT_COLOR.other;
-    const u=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name+' '+mallName+' Shanghai')}`;
+    const u=`https://uri.amap.com/search?keyword=${encodeURIComponent(s.name+' '+mallName)}&city=上海&callnative=1`;
     return `<div class="mall-pu-row">
       <strong style="color:${sc}">${s.name}${s.nameEn?' <span style="color:#aaa;font-weight:400">'+s.nameEn+'</span>':''}</strong>
       <span>${s.description||''}</span>
@@ -390,7 +392,7 @@ function mallPin(mallName,shops){
         <div class="pu-cat" style="color:${c}">🏬 ${firstStreet||''}</div>
         <div class="pu-name">${mallName}</div>
         <div style="margin-top:6px">${rows}</div>
-        <a class="pu-maps" style="background:${c};margin-top:8px" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mallName+' Shanghai')}" target="_blank">Open in Google Maps →</a>
+        <a class="pu-maps" style="background:${c};margin-top:8px" href="https://uri.amap.com/search?keyword=${encodeURIComponent(mallName)}&city=上海&callnative=1" target="_blank">Open in Amap →</a>
       </div>`,{maxWidth:290}).addTo(map);
   mallMarkers[mallName]=m;
 }
