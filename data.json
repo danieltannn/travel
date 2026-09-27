@@ -1,3 +1,109 @@
 {
-  "notes": {}
+  "notes": {
+    "Shanghai 2026": {
+      "streets": {
+        "淮海中路": { "en": "Huaihai Middle Road", "color": "#AB47BC" },
+        "思南路":   { "en": "Sinan Road",          "color": "#7B1FA2" },
+        "新天地":   { "en": "Xintiandi",            "color": "#3949AB" }
+      },
+      "places": [
+        {
+          "id":"sh_001","name":"Housnowhere","nameEn":null,
+          "street":"淮海中路","mall":null,
+          "description":"巨人展、巨型米奇、银色F1 — giant immersive exhibition",
+          "category":"attraction","lat":31.2175,"lng":121.4583
+        },
+        {
+          "id":"sh_002","name":"Matcha Wang","nameEn":null,
+          "street":"淮海中路","mall":null,
+          "description":"刷屏ins的抹茶特调 — viral matcha drinks",
+          "category":"food","lat":31.2170,"lng":121.4610
+        },
+        {
+          "id":"sh_003","name":"Hai550","nameEn":null,
+          "street":"淮海中路","mall":null,
+          "description":"7层楼的小众设计师集合店 — 7-floor designer concept store",
+          "category":"shopping","lat":31.21893,"lng":121.46459
+        },
+        {
+          "id":"sh_004","name":"Masonprince","nameEn":null,
+          "street":"淮海中路","mall":null,
+          "description":"漩涡泳池、戴VR的仿真人 — infinity pool + VR experience",
+          "category":"attraction","lat":31.2172,"lng":121.4543
+        },
+        {
+          "id":"sh_005","name":"小嬛嬛","nameEn":null,
+          "street":"思南路","mall":null,
+          "description":"人均100+就能吃地道宁波菜 — authentic Ningbo cuisine",
+          "category":"food","lat":31.2186,"lng":121.4671
+        },
+        {
+          "id":"sh_006","name":"思南公馆","nameEn":"Sinan Mansions",
+          "street":"思南路","mall":null,
+          "description":"51栋花园洋房、露天博物馆 — heritage garden villas turned open-air museum",
+          "category":"attraction","lat":31.21884,"lng":121.46609
+        },
+        {
+          "id":"sh_007","name":"思南书局","nameEn":"Sinan Bookstore",
+          "street":"思南路","mall":null,
+          "description":"4层空间，建筑本身很有味道 — stunning 4-floor bookstore in heritage building",
+          "category":"attraction","lat":31.21538,"lng":121.46921
+        },
+        {
+          "id":"sh_008","name":"周公馆","nameEn":"Zhou Gong Guan",
+          "street":"思南路","mall":null,
+          "description":"周恩来旧居，免门票不需要预约 — Zhou Enlai's former residence, free entry",
+          "category":"attraction","lat":31.21960,"lng":121.46640
+        },
+        {
+          "id":"sh_009","name":"古董花园","nameEn":"Antique Garden",
+          "street":"思南路","mall":null,
+          "description":"10多年老店，《繁花》取景地 — filming location for TV drama 繁花",
+          "category":"attraction","lat":31.21660,"lng":121.46695
+        },
+        {
+          "id":"sh_010","name":"KWL","nameEn":null,
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"2000平韩系服装 — massive Korean fashion store",
+          "category":"shopping","lat":31.21935,"lng":121.47498
+        },
+        {
+          "id":"sh_011","name":"Piggyoo人生四格漫画","nameEn":"Piggyoo Comics",
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"弘大同款漫画专门店 — comics & merch shop (Hongdae style)",
+          "category":"shopping","lat":31.21672,"lng":121.47488
+        },
+        {
+          "id":"sh_012","name":"三夏社","nameEn":null,
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"追星女孩必逛 — idol fan merch store",
+          "category":"shopping","lat":31.21660,"lng":121.47510
+        },
+        {
+          "id":"sh_013","name":"伦敦小狗面包","nameEn":"London Puppy Bakery",
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"高颜值面包 — instagrammable artisan bread",
+          "category":"food","lat":31.21920,"lng":121.47470
+        },
+        {
+          "id":"sh_014","name":"Looknow Lab","nameEn":null,
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"超多Jellycat — largest Jellycat selection",
+          "category":"shopping","lat":31.21648,"lng":121.47532
+        },
+        {
+          "id":"sh_015","name":"纽约贝果博物馆","nameEn":"NY Bagel Museum",
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"新天地老网红 — Xintiandi's most famous viral bagel spot",
+          "category":"food","lat":31.21905,"lng":121.47515
+        },
+        {
+          "id":"sh_016","name":"HARMAY 话梅","nameEn":"HARMAY",
+          "street":"新天地","mall":"新天地 Xintiandi",
+          "description":"各种大牌护肤品化妆品旅行装 — luxury beauty travel sizes",
+          "category":"shopping","lat":31.21636,"lng":121.47500
+        }
+      ]
+    }
+  }
 }
