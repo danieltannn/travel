@@ -82,7 +82,7 @@ header h1{font-size:16px;font-weight:800}
 #empty p{font-size:13px;color:#999;line-height:1.5}
 
 /* Modal backdrop */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:flex-end;justify-content:center}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-end;justify-content:center}
 .modal-bg.open{display:flex}
 .modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:600px;
   padding:18px 16px;padding-bottom:max(18px,env(safe-area-inset-bottom,18px));
@@ -251,9 +251,10 @@ const CAT_LABEL = { food:'🍜 Food', shopping:'🛍 Shopping', attraction:'📸
 // MAP
 // ═══════════════════════════════════════════════
 const map = L.map('map', { center:[31.218,121.462], zoom:13 });
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  maxZoom:19
+L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+  subdomains:['0','1','2','3'],
+  attribution:'© Google Maps',
+  maxZoom:20
 }).addTo(map);
 
 // ═══════════════════════════════════════════════
