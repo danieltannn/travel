@@ -19,126 +19,92 @@ html,body,#app{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe U
 header{
   background:var(--hdr);color:#fff;flex-shrink:0;
   padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top,10px));
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;gap:10px;
 }
-header h1{font-size:16px;font-weight:800}
-#place-count{font-size:11px;color:#555;margin-top:1px}
-.hdr-btn{background:rgba(255,255,255,.1);border:none;color:#fff;
-  width:34px;height:34px;border-radius:10px;font-size:17px;cursor:pointer}
+header h1{font-size:15px;font-weight:800;flex:1}
+#note-select{
+  background:rgba(255,255,255,.12);color:#fff;border:none;
+  border-radius:8px;padding:6px 10px;font-size:12px;font-weight:600;
+  font-family:-apple-system,sans-serif;cursor:pointer;max-width:160px;
+}
+#note-select option{color:#000;background:#fff}
 
 /* Map */
-#map{flex:0 0 50vh;min-height:180px}
+#map{flex:0 0 48vh;min-height:160px}
 
-/* Bottom panel */
-#panel{flex:1;min-height:0;display:flex;flex-direction:column;border-top:1px solid #ddd}
-#panel-head{
-  padding:10px 14px 6px;display:flex;align-items:center;
-  justify-content:space-between;background:var(--bg);flex-shrink:0;
-}
-#panel-head h2{font-size:14px;font-weight:700}
-#add-btn{
-  background:var(--accent);color:#fff;border:none;
-  padding:8px 16px;border-radius:20px;font-size:12px;
-  font-weight:700;cursor:pointer;
-}
-#list{flex:1;overflow-y:auto;padding:0 14px;
-  padding-bottom:max(14px,env(safe-area-inset-bottom,14px))}
+/* Panel */
+#panel{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg)}
 
-/* Place cards */
-.place-card{
-  background:var(--card);border-radius:12px;margin-bottom:8px;
-  box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;
+/* Category filter tabs */
+#cat-bar{
+  display:flex;gap:6px;padding:8px 14px 4px;overflow-x:auto;
+  flex-shrink:0;scrollbar-width:none;background:var(--bg);
 }
-.place-row{display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer}
-.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+#cat-bar::-webkit-scrollbar{display:none}
+.cat-tab{
+  padding:5px 13px;border-radius:20px;border:none;font-size:11px;
+  font-weight:700;cursor:pointer;white-space:nowrap;
+  background:#e5e5ea;color:#666;transition:all .15s;flex-shrink:0;
+}
+.cat-tab.on{color:#fff}
+
+/* Place list */
+#list{flex:1;overflow-y:auto;padding:4px 14px 80px}
+
+/* Plot bar */
+#plot-bar{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:10px 14px;padding-bottom:max(10px,env(safe-area-inset-bottom,10px));
+  background:rgba(242,242,247,.95);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-top:1px solid #e0e0e0;display:flex;gap:8px;z-index:100;
+}
+#plot-btn{
+  flex:1;background:var(--accent);color:#fff;border:none;
+  padding:13px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;
+}
+#plot-btn:disabled{background:#c7c7cc;cursor:default}
+#clear-btn{
+  background:#e5e5ea;color:#333;border:none;
+  padding:13px 16px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;
+}
+
+/* Place card */
+.pcard{
+  background:var(--card);border-radius:12px;margin-bottom:7px;
+  box-shadow:0 1px 3px rgba(0,0,0,.07);
+  display:flex;align-items:center;gap:10px;padding:11px 12px;
+  cursor:pointer;user-select:none;transition:opacity .15s;
+}
+.pcard.dimmed{opacity:.4}
+.pcheck{
+  width:22px;height:22px;border-radius:6px;border:2px solid #d0d0d0;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;font-size:13px;transition:all .15s;
+}
+.pcard.checked .pcheck{border-color:var(--c);background:var(--c);color:#fff}
+.pdot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
 .pinfo{flex:1;min-width:0}
 .pname{font-size:13px;font-weight:700;color:#111;line-height:1.2}
-.paddr{font-size:11px;color:#999;margin-top:1px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.pcat{font-size:9px;font-weight:800;padding:2px 7px;border-radius:6px;color:#fff;text-transform:uppercase;flex-shrink:0}
-.del-btn{border:none;background:none;font-size:15px;color:#ccc;cursor:pointer;padding:2px 4px}
-.pdesc{font-size:12px;color:#666;line-height:1.5;padding:0 12px 10px 32px;display:none}
-.place-card.open .pdesc{display:block}
+.pname-en{font-size:11px;color:#aaa;font-weight:400}
+.pdesc{font-size:11px;color:#999;margin-top:1px;
+  overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.pbadge{font-size:9px;font-weight:800;padding:2px 7px;
+  border-radius:6px;color:#fff;text-transform:uppercase;flex-shrink:0}
 
-/* Mall groups */
-.mall-card{background:var(--card);border-radius:12px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden}
-.mall-hdr{display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer;background:#f0f7f0}
-.mall-icon{width:28px;height:28px;border-radius:8px;background:var(--mall);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-.mall-name{flex:1;font-size:13px;font-weight:800;color:var(--mall)}
-.mall-ct{font-size:11px;color:#aaa}
-.chev{font-size:11px;color:#aaa;transition:transform .2s}
-.mall-card.open .chev{transform:rotate(180deg)}
-.mall-shops{display:none}
-.mall-card.open .mall-shops{display:block}
-.mshop{display:flex;align-items:center;gap:10px;padding:9px 12px;border-top:1px solid #f0f0f0;cursor:pointer}
-.mshop-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-left:4px}
-.mshop-info{flex:1;min-width:0}
-.mshop-name{font-size:12px;font-weight:700;color:#111}
-.mshop-desc{font-size:11px;color:#999;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+/* Mall section header */
+.mall-header{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 2px 4px;
+}
+.mall-label{font-size:11px;font-weight:800;color:var(--mall);text-transform:uppercase;letter-spacing:.3px}
+.mall-line{flex:1;height:1px;background:#d0e8d0}
 
-/* Empty */
-#empty{text-align:center;padding:36px 20px}
+/* Empty state */
+#empty{text-align:center;padding:40px 20px}
 #empty .eicon{font-size:44px;margin-bottom:10px}
-#empty h3{font-size:16px;font-weight:700;margin-bottom:6px}
+#empty h3{font-size:15px;font-weight:700;margin-bottom:6px;color:#333}
 #empty p{font-size:13px;color:#999;line-height:1.5}
-
-/* Modal backdrop */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;align-items:flex-end;justify-content:center}
-.modal-bg.open{display:flex}
-.modal{background:#fff;border-radius:20px 20px 0 0;width:100%;max-width:600px;
-  padding:18px 16px;padding-bottom:max(18px,env(safe-area-inset-bottom,18px));
-  max-height:90vh;overflow-y:auto}
-.modal-handle{width:36px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 14px}
-.modal h2{font-size:17px;font-weight:800;margin-bottom:14px}
-.modal label{font-size:11px;font-weight:700;color:#888;display:block;margin:12px 0 5px;text-transform:uppercase;letter-spacing:.3px}
-
-/* Search input with results */
-.search-wrap{position:relative}
-.search-input{
-  width:100%;border:1.5px solid #e0e0e0;border-radius:12px;
-  padding:11px 14px 11px 38px;font-size:14px;outline:none;
-  font-family:-apple-system,sans-serif;background:#f8f8f8;
-}
-.search-input:focus{border-color:var(--accent);background:#fff}
-.search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:16px;pointer-events:none}
-.search-results{
-  position:absolute;top:calc(100% + 4px);left:0;right:0;
-  background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);
-  z-index:10;overflow:hidden;display:none;max-height:200px;overflow-y:auto;
-}
-.search-results.show{display:block}
-.sr-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:13px}
-.sr-item:last-child{border-bottom:none}
-.sr-item:active,.sr-item:hover{background:#f5f5f5}
-.sr-name{font-weight:600;color:#111}
-.sr-addr{font-size:11px;color:#999;margin-top:1px}
-.sr-loading{padding:14px;text-align:center;color:#999;font-size:13px}
-.sr-none{padding:14px;text-align:center;color:#999;font-size:13px}
-
-/* OR divider */
-.or-divider{display:flex;align-items:center;gap:10px;margin:10px 0}
-.or-divider::before,.or-divider::after{content:'';flex:1;height:1px;background:#e0e0e0}
-.or-divider span{font-size:11px;color:#aaa;font-weight:600}
-
-/* Category pills */
-.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.cat-pill{
-  border:1.5px solid #e0e0e0;border-radius:10px;padding:10px;
-  cursor:pointer;text-align:center;font-size:12px;font-weight:700;
-  background:#fff;color:#555;transition:all .15s;
-}
-.cat-pill.sel{border-color:var(--c);background:var(--c);color:#fff}
-
-/* Text inputs */
-.txt-input{
-  width:100%;border:1.5px solid #e0e0e0;border-radius:10px;
-  padding:10px 12px;font-size:14px;outline:none;
-  font-family:-apple-system,sans-serif;
-}
-.txt-input:focus{border-color:var(--accent)}
-
-/* Buttons */
-.pri-btn{width:100%;margin-top:14px;background:var(--accent);color:#fff;border:none;padding:14px;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer}
-.sec-btn{width:100%;margin-top:8px;background:#f2f2f7;color:#333;border:none;padding:12px;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer}
 
 /* Popup */
 .leaflet-popup-content-wrapper{border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);padding:0;overflow:hidden;border:none}
@@ -149,87 +115,64 @@ header h1{font-size:16px;font-weight:800}
 .pu-body{padding:11px 13px 10px}
 .pu-cat{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
 .pu-name{font-size:14px;font-weight:800;color:#111;margin-bottom:2px;line-height:1.2}
-.pu-addr{font-size:11px;color:#aaa;margin-bottom:6px}
+.pu-sub{font-size:11px;color:#aaa;margin-bottom:2px}
 .pu-desc{font-size:11px;color:#555;line-height:1.4;margin-bottom:8px}
 .pu-maps{display:block;text-align:center;padding:8px;border-radius:8px;font-size:12px;font-weight:700;color:#fff;text-decoration:none}
 
 /* Toast */
-#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+#toast{
+  position:fixed;bottom:85px;left:50%;transform:translateX(-50%);
   background:#333;color:#fff;padding:9px 16px;border-radius:20px;
-  font-size:13px;font-weight:600;z-index:999;opacity:0;
-  transition:opacity .25s;pointer-events:none;white-space:nowrap}
+  font-size:13px;font-weight:600;z-index:3000;
+  opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;
+}
 #toast.show{opacity:1}
+
+/* Loading spinner */
+#geocode-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:12px;
+}
+#geocode-overlay.show{display:flex}
+.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,.2);
+  border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#geocode-msg{color:#fff;font-size:14px;font-weight:600}
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <div>
-      <h1>✈️ Travel Planner</h1>
-      <div id="place-count">No places saved yet</div>
-    </div>
-    <button class="hdr-btn" onclick="clearAll()" title="Clear all">🗑</button>
+    <h1>✈️ Travel Planner</h1>
+    <select id="note-select" onchange="switchNote(this.value)">
+      <option value="">Loading...</option>
+    </select>
   </header>
 
   <div id="map"></div>
 
-  <div id="panel">
-    <div id="panel-head">
-      <h2>My Places</h2>
-      <button id="add-btn" onclick="openAdd()">＋ Add Place</button>
+  <div id="panel" style="position:relative">
+    <div id="cat-bar">
+      <button class="cat-tab on" data-cat="all" style="background:#555" onclick="filterCat('all',this)">All</button>
+      <button class="cat-tab" data-cat="food"       onclick="filterCat('food',this)">🍜 Food</button>
+      <button class="cat-tab" data-cat="shopping"   onclick="filterCat('shopping',this)">🛍 Shopping</button>
+      <button class="cat-tab" data-cat="attraction" onclick="filterCat('attraction',this)">📸 Attraction</button>
+      <button class="cat-tab" data-cat="hotel"      onclick="filterCat('hotel',this)">🏨 Hotel</button>
     </div>
+
     <div id="list"></div>
+
+    <div id="plot-bar">
+      <button id="clear-btn" onclick="clearMap()">Clear Map</button>
+      <button id="plot-btn" onclick="plotSelected()" disabled>Select places to plot</button>
+    </div>
   </div>
 </div>
 
-<!-- Add place modal -->
-<div class="modal-bg" id="add-modal" onclick="closeAdd(event)">
-  <div class="modal">
-    <div class="modal-handle"></div>
-    <h2>Add a Place</h2>
-
-    <label>Search by name</label>
-    <div class="search-wrap">
-      <span class="search-icon">🔍</span>
-      <input class="search-input" id="search-input"
-        placeholder="e.g. 思南公馆, Supreme 富民路..."
-        oninput="onSearch(this.value)"
-        onpaste="onPaste(event)"
-        autocomplete="off" autocorrect="off" spellcheck="false"/>
-      <div class="search-results" id="search-results"></div>
-    </div>
-
-    <div class="or-divider"><span>OR</span></div>
-
-    <label>Paste a Google Maps link</label>
-    <input class="txt-input" id="maps-url"
-      placeholder="https://maps.google.com/..."
-      oninput="parseMapURL(this.value)"/>
-    <div id="url-status" style="font-size:11px;color:#aaa;margin-top:4px"></div>
-
-    <label>Place name</label>
-    <input class="txt-input" id="place-name" placeholder="Name of the place"/>
-
-    <label>Category</label>
-    <div class="cat-grid">
-      <button class="cat-pill sel" style="--c:var(--food)"    data-cat="food"       onclick="selCat(this)">🍜 Food</button>
-      <button class="cat-pill"     style="--c:var(--shopping)" data-cat="shopping"  onclick="selCat(this)">🛍 Shopping</button>
-      <button class="cat-pill"     style="--c:var(--attraction)" data-cat="attraction" onclick="selCat(this)">📸 Attraction</button>
-      <button class="cat-pill"     style="--c:var(--hotel)"   data-cat="hotel"      onclick="selCat(this)">🏨 Hotel</button>
-    </div>
-
-    <label>Mall / Complex <span style="font-weight:400;color:#bbb">(optional — groups places together)</span></label>
-    <input class="txt-input" id="mall-name" placeholder="e.g. 新天地 Xintiandi"/>
-
-    <label>Notes <span style="font-weight:400;color:#bbb">(optional)</span></label>
-    <input class="txt-input" id="place-notes" placeholder="e.g. 4-floor heritage bookstore"/>
-
-    <button class="pri-btn" onclick="addPlace()">📍 Add to Map</button>
-    <button class="sec-btn" onclick="closeAdd()">Cancel</button>
-  </div>
+<div id="geocode-overlay">
+  <div class="spinner"></div>
+  <div id="geocode-msg">Finding locations...</div>
 </div>
-
-<!-- Toast -->
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -237,20 +180,21 @@ header h1{font-size:16px;font-weight:800}
 // ═══════════════════════════════════════════════
 // STATE
 // ═══════════════════════════════════════════════
-let places = JSON.parse(localStorage.getItem('tp_places') || '[]');
-let markers = {};
-let mallMarkers = {};
-let pendingLat = null, pendingLng = null;
-let selectedCat = 'food';
-let searchTimer = null;
+const CAT_COLOR = {food:'#FF5722',shopping:'#9C27B0',attraction:'#2196F3',hotel:'#F9A825',other:'#607D8B'};
+const CAT_LABEL = {food:'🍜 Food',shopping:'🛍 Shopping',attraction:'📸 Attraction',hotel:'🏨 Hotel',other:'📍 Place'};
 
-const CAT_COLOR = { food:'#FF5722', shopping:'#9C27B0', attraction:'#2196F3', hotel:'#F9A825' };
-const CAT_LABEL = { food:'🍜 Food', shopping:'🛍 Shopping', attraction:'📸 Attraction', hotel:'🏨 Hotel' };
+let allData = { notes: {} };
+let currentNote = '';
+let currentCat = 'all';
+let checked = new Set();
+let plotted = {};
+let mallMarkers = {};
+let geocodeCache = JSON.parse(localStorage.getItem('geo_cache') || '{}');
 
 // ═══════════════════════════════════════════════
 // MAP
 // ═══════════════════════════════════════════════
-const map = L.map('map', { center:[31.218,121.462], zoom:13 });
+const map = L.map('map', { center:[31.218,121.462], zoom:13, zoomControl:true });
 L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
   subdomains:['0','1','2','3'],
   attribution:'© Google Maps',
@@ -258,334 +202,274 @@ L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
 }).addTo(map);
 
 // ═══════════════════════════════════════════════
-// SEARCH (Nominatim)
+// LOAD DATA
 // ═══════════════════════════════════════════════
-function onSearch(val) {
-  clearTimeout(searchTimer);
-  const res = document.getElementById('search-results');
-  if (val.length < 2) { res.classList.remove('show'); return; }
-  res.innerHTML = '<div class="sr-loading">Searching...</div>';
-  res.classList.add('show');
-  searchTimer = setTimeout(() => doSearch(val), 400);
-}
-
-async function doSearch(q) {
-  const res = document.getElementById('search-results');
+async function loadData() {
   try {
-    const r = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&format=json&limit=5&addressdetails=1&accept-language=en`,
-      { headers:{'Accept-Language':'en'} }
-    );
-    const data = await r.json();
-    if (!data.length) {
-      res.innerHTML = '<div class="sr-none">No results — try a more specific name</div>';
-      return;
-    }
-    res.innerHTML = data.map((d,i) => {
-      const name = d.name || d.display_name.split(',')[0];
-      const addr = d.display_name;
-      return `<div class="sr-item" onclick="pickResult(${d.lat},${d.lon},'${escQ(name)}','${escQ(addr)}')">
-        <div class="sr-name">${name}</div>
-        <div class="sr-addr">${addr}</div>
-      </div>`;
-    }).join('');
+    const r = await fetch('./data.json?t=' + Date.now());
+    allData = await r.json();
   } catch(e) {
-    res.innerHTML = '<div class="sr-none">Search failed — check your connection</div>';
+    allData = { notes:{} };
   }
-}
 
-function pickResult(lat, lng, name, addr) {
-  pendingLat = parseFloat(lat);
-  pendingLng = parseFloat(lng);
-  document.getElementById('search-input').value = name;
-  if (!document.getElementById('place-name').value) {
-    document.getElementById('place-name').value = name;
-  }
-  document.getElementById('search-results').classList.remove('show');
-  toast('📍 Location found!');
-}
+  const notes = Object.keys(allData.notes);
+  const sel = document.getElementById('note-select');
 
-function onPaste(e) {
-  // Handle paste into search — check if it's a Maps URL
-  setTimeout(() => {
-    const val = e.target.value;
-    if (val.includes('google.com/maps') || val.includes('maps.app.goo.gl')) {
-      document.getElementById('maps-url').value = val;
-      document.getElementById('search-input').value = '';
-      parseMapURL(val);
-    }
-  }, 50);
-}
-
-// ═══════════════════════════════════════════════
-// GOOGLE MAPS URL PARSER
-// ═══════════════════════════════════════════════
-function parseMapURL(url) {
-  const status = document.getElementById('url-status');
-  if (!url) { status.textContent = ''; return; }
-
-  // Try @lat,lng pattern
-  const atM = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
-  if (atM) {
-    pendingLat = parseFloat(atM[1]);
-    pendingLng = parseFloat(atM[2]);
-    status.textContent = `✅ Got coordinates: ${pendingLat.toFixed(5)}, ${pendingLng.toFixed(5)}`;
-    status.style.color = '#2E7D32';
-    // Try extract place name from URL
-    const nameM = url.match(/place\/([^/@]+)/);
-    if (nameM && !document.getElementById('place-name').value) {
-      document.getElementById('place-name').value = decodeURIComponent(nameM[1].replace(/\+/g,' '));
-    }
+  if (!notes.length) {
+    sel.innerHTML = '<option value="">No notes yet</option>';
+    renderEmpty('No travel notes yet', 'Ask Claude to add places from your screenshots — they\'ll appear here organised by trip.');
     return;
   }
 
-  // Try q=lat,lng
-  const qM = url.match(/[?&]q=(-?\d+\.\d+),(-?\d+\.\d+)/);
-  if (qM) {
-    pendingLat = parseFloat(qM[1]);
-    pendingLng = parseFloat(qM[2]);
-    status.textContent = `✅ Got coordinates: ${pendingLat.toFixed(5)}, ${pendingLng.toFixed(5)}`;
-    status.style.color = '#2E7D32';
-    return;
-  }
-
-  // Try q=place+name (search query)
-  const sqM = url.match(/[?&]q=([^&]+)/);
-  if (sqM) {
-    const q = decodeURIComponent(sqM[1].replace(/\+/g,' '));
-    if (!document.getElementById('place-name').value) {
-      document.getElementById('place-name').value = q;
-    }
-    document.getElementById('search-input').value = q;
-    doSearch(q);
-    status.textContent = '🔍 Searching for location...';
-    status.style.color = '#aaa';
-    return;
-  }
-
-  status.textContent = '⚠️ Could not read coordinates from this link — try copying from the browser address bar';
-  status.style.color = '#FF5722';
-}
-
-// ═══════════════════════════════════════════════
-// ADD PLACE
-// ═══════════════════════════════════════════════
-function openAdd() {
-  pendingLat = null; pendingLng = null;
-  document.getElementById('search-input').value = '';
-  document.getElementById('maps-url').value = '';
-  document.getElementById('place-name').value = '';
-  document.getElementById('mall-name').value = '';
-  document.getElementById('place-notes').value = '';
-  document.getElementById('url-status').textContent = '';
-  document.getElementById('search-results').classList.remove('show');
-  document.querySelector('.cat-pill.sel')?.classList.remove('sel');
-  document.querySelector('[data-cat="food"]').classList.add('sel');
-  selectedCat = 'food';
-  document.getElementById('add-modal').classList.add('open');
-}
-
-function closeAdd(e) {
-  if (!e || e.target === document.getElementById('add-modal'))
-    document.getElementById('add-modal').classList.remove('open');
-}
-
-function selCat(btn) {
-  document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('sel'));
-  btn.classList.add('sel');
-  selectedCat = btn.dataset.cat;
-}
-
-function addPlace() {
-  const name = document.getElementById('place-name').value.trim();
-  if (!name) { toast('Please enter a place name'); return; }
-  if (!pendingLat || !pendingLng) { toast('Please search for or paste a Maps link to get the location'); return; }
-
-  const place = {
-    id: 'p_' + Date.now(),
-    name,
-    address: document.getElementById('search-input').value || name,
-    mall: document.getElementById('mall-name').value.trim() || null,
-    description: document.getElementById('place-notes').value.trim(),
-    category: selectedCat,
-    color: CAT_COLOR[selectedCat],
-    lat: pendingLat,
-    lng: pendingLng
-  };
-
-  places.push(place);
-  save();
+  sel.innerHTML = notes.map(n => `<option value="${n}">${n}</option>`).join('');
+  currentNote = notes[0];
+  sel.value = currentNote;
   renderList();
-  plotMarkers();
-  map.setView([place.lat, place.lng], 16);
-  markers[place.id]?.openPopup();
-  closeAdd();
-  toast(`✅ ${name} added!`);
+}
+
+function switchNote(note) {
+  currentNote = note;
+  checked.clear();
+  clearMap();
+  renderList();
 }
 
 // ═══════════════════════════════════════════════
-// MARKERS
+// RENDER LIST
 // ═══════════════════════════════════════════════
-function plotMarkers() {
-  Object.values(markers).forEach(m=>map.removeLayer(m));
-  Object.values(mallMarkers).forEach(m=>map.removeLayer(m));
-  markers = {}; mallMarkers = {};
+function renderList() {
+  const list = document.getElementById('list');
+  const places = (allData.notes[currentNote]?.places || []);
+  const filtered = currentCat === 'all' ? places : places.filter(p => p.category === currentCat);
 
+  if (!places.length) {
+    renderEmpty(`No places in "${currentNote}"`, 'Paste screenshots in the Claude chat and ask to add them to this note.');
+    updatePlotBtn();
+    return;
+  }
+  if (!filtered.length) {
+    renderEmpty('No places in this category', 'Try selecting a different filter above.');
+    updatePlotBtn();
+    return;
+  }
+
+  // Group by mall
   const malls = {};
   const standalone = [];
-  places.forEach(p => {
+  filtered.forEach(p => {
     if (p.mall) { (malls[p.mall] = malls[p.mall]||[]).push(p); }
     else standalone.push(p);
   });
 
-  standalone.forEach(p => {
-    const url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name)}&center=${p.lat},${p.lng}`;
-    const m = L.marker([p.lat,p.lng], {
-      icon: L.divIcon({className:'',
-        html:`<div style="width:14px;height:14px;border-radius:50%;background:${p.color};border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>`,
-        iconSize:[14,14],iconAnchor:[7,7]}),zIndexOffset:100
-    }).bindPopup(`
-      <div class="pu-top" style="background:${p.color}"></div>
-      <div class="pu-body">
-        <div class="pu-cat" style="color:${p.color}">${CAT_LABEL[p.category]||'📍'}</div>
-        <div class="pu-name">${p.name}</div>
-        <div class="pu-addr">📍 ${p.address||''}</div>
-        ${p.description?`<div class="pu-desc">${p.description}</div>`:''}
-        <a class="pu-maps" href="${url}" target="_blank" style="background:${p.color}">Open in Google Maps →</a>
-      </div>`,{maxWidth:260}).addTo(map);
-    markers[p.id] = m;
+  let html = '';
+
+  // Mall groups
+  Object.entries(malls).forEach(([mallName, shops]) => {
+    html += `<div class="mall-header">
+      <span class="mall-label">🏬 ${mallName}</span>
+      <div class="mall-line"></div>
+    </div>`;
+    shops.forEach(p => { html += placeCard(p); });
   });
 
-  Object.entries(malls).forEach(([mallName, shops]) => {
-    const avgLat = shops.reduce((s,p)=>s+p.lat,0)/shops.length;
-    const avgLng = shops.reduce((s,p)=>s+p.lng,0)/shops.length;
-    const icon = L.divIcon({className:'',
-      html:`<div style="background:#2E7D32;color:#fff;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.3);border:2px solid #fff;transform:translate(-50%,-50%)">🏬 ${mallName} <span style="background:rgba(255,255,255,.3);border-radius:10px;padding:0 5px">${shops.length}</span></div>`,
-      iconSize:[0,0],iconAnchor:[0,0]});
-    const shopRows = shops.map(s=>`
-      <div class="mall-pu-item" style="padding:5px 0;border-top:1px solid #f0f0f0">
-        <strong style="font-size:12px;color:${s.color}">${s.name}</strong>
-        ${s.description?`<div style="font-size:11px;color:#999">${s.description}</div>`:''}
-      </div>`).join('');
-    const m = L.marker([avgLat,avgLng],{icon,zIndexOffset:200})
-      .bindPopup(`
-        <div class="pu-top" style="background:#2E7D32"></div>
-        <div class="pu-body">
-          <div class="pu-cat" style="color:#2E7D32">🏬 MALL / COMPLEX</div>
-          <div class="pu-name">${mallName}</div>
-          <div style="margin-top:6px">${shopRows}</div>
-          <a class="pu-maps" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mallName)}" target="_blank" style="background:#2E7D32;margin-top:8px">Open in Google Maps →</a>
-        </div>`,{maxWidth:280}).addTo(map);
-    mallMarkers[mallName] = m;
-  });
+  // Standalone
+  if (standalone.length) {
+    if (Object.keys(malls).length) {
+      html += `<div class="mall-header"><span class="mall-label">Other Places</span><div class="mall-line"></div></div>`;
+    }
+    standalone.forEach(p => { html += placeCard(p); });
+  }
+
+  list.innerHTML = html;
+  updatePlotBtn();
+}
+
+function placeCard(p) {
+  const c = CAT_COLOR[p.category] || CAT_COLOR.other;
+  const isChecked = checked.has(p.id);
+  return `<div class="pcard ${isChecked?'checked':''}" style="--c:${c}" onclick="toggleCheck('${p.id}')">
+    <div class="pcheck">${isChecked ? '✓' : ''}</div>
+    <div class="pdot" style="background:${c}"></div>
+    <div class="pinfo">
+      <div class="pname">${p.name}${p.nameEn?` <span class="pname-en">${p.nameEn}</span>`:''}</div>
+      <div class="pdesc">${p.description || p.address || ''}</div>
+    </div>
+    <span class="pbadge" style="background:${c}">${(p.category||'other').toUpperCase()}</span>
+  </div>`;
+}
+
+function renderEmpty(title, msg) {
+  document.getElementById('list').innerHTML = `<div id="empty">
+    <div class="eicon">🗺️</div>
+    <h3>${title}</h3>
+    <p>${msg}</p>
+  </div>`;
 }
 
 // ═══════════════════════════════════════════════
-// LIST
+// CHECK / FILTER
 // ═══════════════════════════════════════════════
-function renderList() {
-  const list = document.getElementById('list');
-  const n = places.length;
-  document.getElementById('place-count').textContent =
-    n > 0 ? `${n} place${n>1?'s':''} saved` : 'No places saved yet';
+function toggleCheck(id) {
+  if (checked.has(id)) checked.delete(id);
+  else checked.add(id);
+  renderList();
+}
 
-  if (!n) {
-    list.innerHTML = `<div id="empty">
-      <div class="eicon">🗺️</div>
-      <h3>No places yet</h3>
-      <p>Tap <b>+ Add Place</b>, type a name or paste a Google Maps link, and it'll drop a pin on the map.</p>
-    </div>`;
-    return;
+function filterCat(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.cat-tab').forEach(b => {
+    b.classList.remove('on');
+    b.style.background = '';
+  });
+  btn.classList.add('on');
+  const colors = {all:'#555',food:'#FF5722',shopping:'#9C27B0',attraction:'#2196F3',hotel:'#F9A825'};
+  btn.style.background = colors[cat] || '#555';
+  renderList();
+}
+
+function updatePlotBtn() {
+  const btn = document.getElementById('plot-btn');
+  const n = checked.size;
+  if (n === 0) { btn.disabled = true; btn.textContent = 'Select places to plot'; }
+  else { btn.disabled = false; btn.textContent = `Plot ${n} place${n>1?'s':''} on Map →`; }
+}
+
+// ═══════════════════════════════════════════════
+// PLOT
+// ═══════════════════════════════════════════════
+async function plotSelected() {
+  const places = (allData.notes[currentNote]?.places || [])
+    .filter(p => checked.has(p.id));
+  if (!places.length) return;
+
+  // Geocode any missing coords
+  const needGeo = places.filter(p => !p.lat || !p.lng);
+  if (needGeo.length) {
+    document.getElementById('geocode-overlay').classList.add('show');
+    for (let i = 0; i < needGeo.length; i++) {
+      const p = needGeo[i];
+      document.getElementById('geocode-msg').textContent =
+        `Finding: ${p.name} (${i+1}/${needGeo.length})`;
+      const coords = await geocode(p.address || p.name);
+      if (coords) { p.lat = coords.lat; p.lng = coords.lng; }
+      await sleep(350);
+    }
+    document.getElementById('geocode-overlay').classList.remove('show');
   }
 
+  // Plot
+  const withCoords = places.filter(p => p.lat && p.lng);
+  if (!withCoords.length) { toast('Could not find locations for selected places'); return; }
+
+  clearMap();
+
+  // Group by mall
   const malls = {};
   const standalone = [];
-  places.forEach(p => {
+  withCoords.forEach(p => {
     if (p.mall) { (malls[p.mall]=malls[p.mall]||[]).push(p); }
     else standalone.push(p);
   });
 
-  let html = '';
-  Object.entries(malls).forEach(([mallName, shops]) => {
-    html += `<div class="mall-card" id="mc_${CSS.escape(mallName)}">
-      <div class="mall-hdr" onclick="toggleMall('${escQ(mallName)}')">
-        <div class="mall-icon">🏬</div>
-        <div style="flex:1;min-width:0">
-          <div class="mall-name">${mallName}</div>
-          <div class="mall-ct">${shops.length} place${shops.length>1?'s':''}</div>
-        </div>
-        <span class="chev">▼</span>
-      </div>
-      <div class="mall-shops">${shops.map(s=>`
-        <div class="mshop" onclick="focus('${s.id}')">
-          <div class="mshop-dot" style="background:${s.color}"></div>
-          <div class="mshop-info">
-            <div class="mshop-name">${s.name}</div>
-            <div class="mshop-desc">${s.description||s.address||''}</div>
-          </div>
-          <button onclick="event.stopPropagation();del('${s.id}')" class="del-btn">✕</button>
-        </div>`).join('')}
-      </div>
+  standalone.forEach(p => plotPin(p));
+  Object.entries(malls).forEach(([name,shops]) => plotMall(name, shops));
+
+  // Fit bounds
+  const pts = withCoords.map(p => [p.lat, p.lng]);
+  if (pts.length === 1) map.setView(pts[0], 16);
+  else map.fitBounds(L.latLngBounds(pts).pad(.15));
+
+  const skipped = places.length - withCoords.length;
+  toast(`Plotted ${withCoords.length} place${withCoords.length>1?'s':''}${skipped?` (${skipped} not found)`:''}  ✅`);
+}
+
+function plotPin(p) {
+  const c = CAT_COLOR[p.category] || CAT_COLOR.other;
+  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name+' '+(p.address||''))}&center=${p.lat},${p.lng}`;
+  const m = L.marker([p.lat,p.lng], {
+    icon: L.divIcon({className:'',
+      html:`<div style="width:14px;height:14px;border-radius:50%;background:${c};border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4)"></div>`,
+      iconSize:[14,14],iconAnchor:[7,7]}),zIndexOffset:100
+  }).bindPopup(`
+    <div class="pu-top" style="background:${c}"></div>
+    <div class="pu-body">
+      <div class="pu-cat" style="color:${c}">${CAT_LABEL[p.category]||'📍'}</div>
+      <div class="pu-name">${p.name}${p.nameEn?`<br><span style="font-size:11px;color:#aaa;font-weight:400">${p.nameEn}</span>`:''}</div>
+      <div class="pu-sub">📍 ${p.address||p.street||''}</div>
+      ${p.description?`<div class="pu-desc">${p.description}</div>`:''}
+      <a class="pu-maps" href="${url}" target="_blank" style="background:${c}">Open in Google Maps →</a>
+    </div>`,{maxWidth:260}).addTo(map);
+  plotted[p.id] = m;
+}
+
+function plotMall(mallName, shops) {
+  const avgLat = shops.reduce((s,p)=>s+p.lat,0)/shops.length;
+  const avgLng = shops.reduce((s,p)=>s+p.lng,0)/shops.length;
+  const icon = L.divIcon({className:'',
+    html:`<div style="background:#2E7D32;color:#fff;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:800;white-space:nowrap;box-shadow:0 2px 10px rgba(0,0,0,.3);border:2px solid #fff;transform:translate(-50%,-50%)">🏬 ${mallName} <span style="background:rgba(255,255,255,.3);border-radius:10px;padding:0 5px">${shops.length}</span></div>`,
+    iconSize:[0,0],iconAnchor:[0,0]});
+  const rows = shops.map(s=>{
+    const c=CAT_COLOR[s.category]||'#607D8B';
+    const url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name+' '+mallName)}`;
+    return `<div style="padding:5px 0;border-top:1px solid #f0f0f0">
+      <div style="font-size:12px;font-weight:700;color:${c}">${s.name}</div>
+      ${s.description?`<div style="font-size:11px;color:#999">${s.description}</div>`:''}
+      <a href="${url}" target="_blank" style="font-size:10px;color:#007AFF;text-decoration:none">Maps →</a>
     </div>`;
-  });
-
-  standalone.forEach(p => {
-    html += `<div class="place-card" id="pc_${p.id}">
-      <div class="place-row" onclick="focus('${p.id}');toggleCard('${p.id}')">
-        <div class="pdot" style="background:${p.color}"></div>
-        <div class="pinfo">
-          <div class="pname">${p.name}</div>
-          <div class="paddr">${p.address||''}</div>
-        </div>
-        <span class="pcat" style="background:${p.color}">${p.category||''}</span>
-        <button onclick="event.stopPropagation();del('${p.id}')" class="del-btn">✕</button>
-      </div>
-      ${p.description?`<div class="pdesc">${p.description}</div>`:''}
-    </div>`;
-  });
-
-  list.innerHTML = html;
+  }).join('');
+  const m = L.marker([avgLat,avgLng],{icon,zIndexOffset:200})
+    .bindPopup(`
+      <div class="pu-top" style="background:#2E7D32"></div>
+      <div class="pu-body">
+        <div class="pu-cat" style="color:#2E7D32">🏬 MALL / COMPLEX</div>
+        <div class="pu-name">${mallName}</div>
+        <div style="margin-top:6px">${rows}</div>
+        <a class="pu-maps" style="background:#2E7D32;margin-top:8px" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mallName)}" target="_blank">Open Mall in Maps →</a>
+      </div>`,{maxWidth:280}).addTo(map);
+  mallMarkers[mallName] = m;
 }
 
-function toggleCard(id) { document.getElementById('pc_'+id)?.classList.toggle('open'); }
-function toggleMall(name) {
-  document.querySelector(`#mc_${CSS.escape(name)}`)?.classList.toggle('open');
-  if (mallMarkers[name]) { map.setView(mallMarkers[name].getLatLng(),16); mallMarkers[name].openPopup(); }
+function clearMap() {
+  Object.values(plotted).forEach(m=>map.removeLayer(m));
+  Object.values(mallMarkers).forEach(m=>map.removeLayer(m));
+  plotted = {}; mallMarkers = {};
 }
-function focus(id) {
-  const p = places.find(x=>x.id===id);
-  if (!p) return;
-  map.setView([p.lat,p.lng],17);
-  markers[id]?.openPopup();
-}
-function del(id) {
-  places = places.filter(p=>p.id!==id);
-  save(); renderList(); plotMarkers();
-}
-function clearAll() {
-  if (!confirm('Clear all saved places?')) return;
-  places=[]; save(); renderList(); plotMarkers();
+
+// ═══════════════════════════════════════════════
+// GEOCODE
+// ═══════════════════════════════════════════════
+async function geocode(query) {
+  if (geocodeCache[query]) return geocodeCache[query];
+  try {
+    const r = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query+', China')}&format=json&limit=1`,
+      { headers:{'Accept-Language':'en'} }
+    );
+    const d = await r.json();
+    if (d[0]) {
+      const coords = { lat:parseFloat(d[0].lat), lng:parseFloat(d[0].lon) };
+      geocodeCache[query] = coords;
+      localStorage.setItem('geo_cache', JSON.stringify(geocodeCache));
+      return coords;
+    }
+  } catch(e) {}
+  return null;
 }
 
 // ═══════════════════════════════════════════════
 // UTILS
 // ═══════════════════════════════════════════════
-function save() { localStorage.setItem('tp_places', JSON.stringify(places)); }
-function escQ(s) { return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
 let toastT;
 function toast(msg) {
   const el=document.getElementById('toast');
   el.textContent=msg; el.classList.add('show');
-  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),3000);
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),3500);
 }
 
 // ── Init ──
-renderList();
-plotMarkers();
-const pts = places.filter(p=>p.lat).map(p=>[p.lat,p.lng]);
-if (pts.length>1) map.fitBounds(L.latLngBounds(pts).pad(.15));
-else if (pts.length===1) map.setView(pts[0],15);
+loadData();
 </script>
 </body>
 </html>
