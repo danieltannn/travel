@@ -3,280 +3,702 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>上海逛街地图</title>
+<title>✈️ Travel Planner</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <style>
+:root{
+  --bg:#f2f2f7;--card:#fff;--header:#0d0f14;
+  --food:#FF5722;--shopping:#9C27B0;--attraction:#2196F3;
+  --hotel:#F9A825;--mall:#2E7D32;--accent:#007AFF;
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body,#root{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-#root{display:flex;flex-direction:column}
+html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg)}
+
+/* ── Layout ── */
+#app{height:100%;display:flex;flex-direction:column}
 
 header{
-  background:#0d0f14;color:#fff;flex-shrink:0;
-  padding:10px 14px 9px;
-  padding-top:max(10px,env(safe-area-inset-top,10px));
+  background:var(--header);color:#fff;flex-shrink:0;
+  padding:10px 14px;padding-top:max(10px,env(safe-area-inset-top,10px));
+  display:flex;align-items:center;justify-content:space-between;
 }
-header h1{font-size:15px;font-weight:800}
-header p{font-size:11px;color:#555;margin-top:2px}
+header h1{font-size:16px;font-weight:800}
+header p{font-size:11px;color:#555;margin-top:1px}
+.hdr-btns{display:flex;gap:8px}
+.hdr-btn{background:rgba(255,255,255,.1);border:none;color:#fff;
+  width:34px;height:34px;border-radius:10px;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center}
 
-#bar{
-  background:#12141d;padding:7px 10px;
-  display:flex;gap:6px;overflow-x:auto;
-  flex-shrink:0;scrollbar-width:none;
-}
-#bar::-webkit-scrollbar{display:none}
-.btn{
-  padding:6px 15px;border-radius:20px;border:none;
-  font-size:11px;font-weight:700;cursor:pointer;
-  white-space:nowrap;opacity:.38;transition:opacity .2s;
-}
-.btn.on{opacity:1}
+#main{flex:1;display:flex;flex-direction:column;min-height:0}
 
-#map{flex:1}
+/* ── Map ── */
+#map{flex:0 0 52vh;min-height:200px}
 
-/* Popup */
-.leaflet-popup-content-wrapper{
-  border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.2);
-  padding:0;overflow:hidden;border:none;
+/* ── Bottom panel ── */
+#panel{
+  flex:1;min-height:0;display:flex;flex-direction:column;
+  background:var(--bg);border-top:1px solid #e0e0e0;overflow:hidden;
 }
+#panel-head{
+  padding:10px 14px 6px;display:flex;align-items:center;
+  justify-content:space-between;flex-shrink:0;background:var(--bg);
+}
+#panel-head h2{font-size:14px;font-weight:700;color:#111}
+#upload-btn{
+  background:var(--accent);color:#fff;border:none;
+  padding:8px 16px;border-radius:20px;font-size:12px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;gap:5px;
+}
+#place-list{flex:1;overflow-y:auto;padding:0 14px 14px;
+  padding-bottom:max(14px,env(safe-area-inset-bottom,14px))}
+
+/* ── Place cards ── */
+.place-card{
+  background:var(--card);border-radius:12px;margin-bottom:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;
+}
+.place-row{
+  display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer;
+}
+.place-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.place-info{flex:1;min-width:0}
+.place-name{font-size:13px;font-weight:700;color:#111;line-height:1.2}
+.place-addr{font-size:11px;color:#999;margin-top:1px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.place-actions{display:flex;gap:6px;flex-shrink:0}
+.place-btn{border:none;background:none;font-size:16px;cursor:pointer;padding:2px}
+.place-desc{
+  font-size:12px;color:#666;line-height:1.5;
+  padding:0 12px 10px 32px;display:none;
+}
+.place-card.open .place-desc{display:block}
+
+/* ── Mall group ── */
+.mall-card{
+  background:var(--card);border-radius:12px;margin-bottom:8px;
+  box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;
+}
+.mall-header{
+  display:flex;align-items:center;gap:10px;padding:11px 12px;
+  cursor:pointer;background:#f9f9f9;
+}
+.mall-icon{
+  width:28px;height:28px;border-radius:8px;background:var(--mall);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+.mall-name{flex:1;font-size:13px;font-weight:800;color:var(--mall)}
+.mall-count{font-size:11px;color:#aaa}
+.mall-chevron{font-size:12px;color:#aaa;transition:transform .2s}
+.mall-card.open .mall-chevron{transform:rotate(180deg)}
+.mall-shops{display:none;padding:4px 0}
+.mall-card.open .mall-shops{display:block}
+.mall-shop-row{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 12px 9px 12px;cursor:pointer;
+  border-top:1px solid #f0f0f0;
+}
+.mall-shop-row:first-child{border-top:none}
+.mall-shop-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-left:4px}
+.mall-shop-info{flex:1;min-width:0}
+.mall-shop-name{font-size:12px;font-weight:700;color:#111}
+.mall-shop-desc{font-size:11px;color:#999;margin-top:1px}
+
+/* ── Empty state ── */
+#empty{
+  text-align:center;padding:40px 20px;
+}
+#empty .icon{font-size:48px;margin-bottom:12px}
+#empty h3{font-size:16px;font-weight:700;color:#333;margin-bottom:6px}
+#empty p{font-size:13px;color:#999;line-height:1.5}
+
+/* ── Category badges ── */
+.cat-badge{
+  font-size:9px;font-weight:800;padding:2px 6px;border-radius:6px;
+  color:#fff;text-transform:uppercase;letter-spacing:.3px;flex-shrink:0;
+}
+
+/* ── Modals ── */
+.modal-bg{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);
+  z-index:1000;align-items:flex-end;justify-content:center;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:#fff;border-radius:20px 20px 0 0;
+  width:100%;max-width:600px;
+  padding:20px;
+  padding-bottom:max(20px,env(safe-area-inset-bottom,20px));
+  max-height:85vh;overflow-y:auto;
+}
+.modal-handle{width:36px;height:4px;background:#e0e0e0;border-radius:2px;margin:0 auto 16px}
+.modal h2{font-size:17px;font-weight:800;margin-bottom:14px}
+.modal label{font-size:12px;font-weight:700;color:#555;display:block;margin-bottom:5px;margin-top:12px}
+.modal input,.modal select{
+  width:100%;border:1.5px solid #e0e0e0;border-radius:10px;
+  padding:10px 12px;font-size:14px;outline:none;
+  font-family:-apple-system,sans-serif;
+}
+.modal input:focus{border-color:var(--accent)}
+.modal-btn{
+  display:block;width:100%;margin-top:16px;
+  background:var(--accent);color:#fff;border:none;
+  padding:14px;border-radius:12px;font-size:15px;font-weight:700;
+  cursor:pointer;
+}
+.modal-btn.secondary{background:#f2f2f7;color:#333}
+
+/* ── Loading overlay ── */
+#loading{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+  z-index:2000;align-items:center;justify-content:center;flex-direction:column;
+  color:#fff;gap:14px;
+}
+#loading.show{display:flex}
+.spinner{
+  width:40px;height:40px;border:3px solid rgba(255,255,255,.2);
+  border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+#loading p{font-size:15px;font-weight:600}
+#loading small{font-size:12px;color:rgba(255,255,255,.6)}
+
+/* ── Popup ── */
+.leaflet-popup-content-wrapper{border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15);padding:0;overflow:hidden;border:none}
 .leaflet-popup-content{margin:0!important}
 .leaflet-popup-tip-container{display:none}
-.leaflet-popup-close-button{
-  top:6px!important;right:10px!important;
-  font-size:20px!important;color:rgba(255,255,255,.9)!important;z-index:10;
-}
+.leaflet-popup-close-button{top:6px!important;right:10px!important;font-size:18px!important;color:rgba(255,255,255,.9)!important;z-index:5}
 .pu-top{height:5px}
-.pu-body{padding:13px 15px 12px}
-.pu-label{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:5px}
-.pu-name{font-size:16px;font-weight:800;color:#111;margin-bottom:3px;line-height:1.2}
-.pu-addr{font-size:11px;color:#aaa;margin-bottom:7px}
-.pu-desc{font-size:12px;color:#555;line-height:1.55;margin-bottom:10px}
-.pu-btn{
-  display:block;text-align:center;color:#fff;padding:10px;
-  border-radius:10px;font-size:13px;font-weight:700;text-decoration:none;
-}
+.pu-body{padding:11px 13px 10px}
+.pu-label{font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:4px}
+.pu-name{font-size:14px;font-weight:800;color:#111;margin-bottom:2px;line-height:1.2}
+.pu-addr{font-size:11px;color:#aaa;margin-bottom:6px}
+.pu-desc{font-size:11px;color:#555;line-height:1.4;margin-bottom:8px}
+.pu-maps{display:block;text-align:center;padding:8px;border-radius:8px;
+  font-size:12px;font-weight:700;color:#fff;text-decoration:none}
 
-/* Legend */
-.leg{
-  background:rgba(255,255,255,.97);padding:9px 12px;
-  border-radius:10px;box-shadow:0 3px 14px rgba(0,0,0,.14);
-  max-width:160px;
+/* Mall popup */
+.mall-pu-item{padding:6px 0;border-bottom:1px solid #f0f0f0;font-size:12px}
+.mall-pu-item:last-child{border-bottom:none}
+.mall-pu-item strong{display:block;font-weight:700;color:#111}
+.mall-pu-item span{color:#999;font-size:11px}
+
+/* ── Toast ── */
+#toast{
+  position:fixed;bottom:100px;left:50%;transform:translateX(-50%);
+  background:#333;color:#fff;padding:10px 18px;border-radius:20px;
+  font-size:13px;font-weight:600;z-index:3000;
+  opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;
 }
-.leg-sec{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
-.leg-row{display:flex;align-items:center;gap:6px;font-size:11px;color:#444;margin:3px 0}
-.leg-bar{width:20px;height:4px;border-radius:2px;flex-shrink:0}
-.leg-hr{height:1px;background:#eee;margin:5px 0}
-.leg-hotel{width:14px;height:14px;background:#FFD600;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px}
+#toast.show{opacity:1}
 </style>
 </head>
 <body>
-<div id="root">
+<div id="app">
   <header>
-    <h1>🗺 上海逛街地图 Shanghai Citywalk</h1>
-    <p>27 shops · 8 streets · 🏨 your hotel · tap pins for details</p>
+    <div>
+      <h1>✈️ Travel Planner</h1>
+      <p id="place-count">Add places from screenshots</p>
+    </div>
+    <div class="hdr-btns">
+      <button class="hdr-btn" onclick="clearAll()" title="Clear all">🗑</button>
+      <button class="hdr-btn" onclick="openSettings()" title="Settings">⚙️</button>
+    </div>
   </header>
-  <div id="bar">
-    <button class="btn on" id="b-all" style="background:#555;color:#fff"    onclick="flt('all')">All</button>
-    <button class="btn on" id="b-r1"  style="background:#9C27B0;color:#fff" onclick="flt('r1')">淮海→思南→新天地</button>
-    <button class="btn on" id="b-r2"  style="background:#F4511E;color:#fff" onclick="flt('r2')">巨富长 Streetwear</button>
+
+  <div id="main">
+    <div id="map"></div>
+    <div id="panel">
+      <div id="panel-head">
+        <h2>Places</h2>
+        <button id="upload-btn" onclick="document.getElementById('file-input').click()">
+          📸 Add from Screenshot
+        </button>
+        <input id="file-input" type="file" accept="image/*" style="display:none" onchange="handleUpload(event)">
+      </div>
+      <div id="place-list">
+        <div id="empty">
+          <div class="icon">🗺️</div>
+          <h3>No places yet</h3>
+          <p>Tap "Add from Screenshot" to upload a photo or social media post — Claude will identify all the places automatically.</p>
+        </div>
+      </div>
+    </div>
   </div>
-  <div id="map"></div>
 </div>
+
+<!-- Settings modal -->
+<div class="modal-bg" id="settings-modal" onclick="closeSettings(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h2>⚙️ Settings</h2>
+    <label>Anthropic API Key (Claude)</label>
+    <input type="password" id="api-key-input" placeholder="sk-ant-..." />
+    <small style="font-size:11px;color:#999;display:block;margin-top:4px">
+      Get your key at console.anthropic.com · Stored locally on your device only
+    </small>
+    <label>Default City</label>
+    <input type="text" id="city-input" placeholder="Shanghai" />
+    <button class="modal-btn" onclick="saveSettings()">Save</button>
+    <button class="modal-btn secondary" onclick="closeSettings()">Cancel</button>
+  </div>
+</div>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="spinner"></div>
+  <p id="loading-text">Analysing screenshot...</p>
+  <small id="loading-sub">Claude is identifying places</small>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 
-// ── Map ───────────────────────────────────────────────────
-// Zoom out a bit to show hotel (3km north) + all shops
-const map = L.map('map', { center:[31.233, 121.455], zoom:13, zoomControl:true });
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let places = JSON.parse(localStorage.getItem('tp_places') || '[]');
+let apiKey = localStorage.getItem('tp_apikey') || '';
+let defaultCity = localStorage.getItem('tp_city') || 'Shanghai';
+let markers = {};
+let mallMarkers = {};
 
+const CAT_COLOR = {
+  food: '#FF5722', shopping: '#9C27B0',
+  attraction: '#2196F3', hotel: '#F9A825', other: '#607D8B'
+};
+const CAT_LABEL = {
+  food:'🍜 Food', shopping:'🛍 Shop', attraction:'📸 Attraction', hotel:'🏨 Hotel', other:'📍 Place'
+};
+
+// ═══════════════════════════════════════════════════════
+// MAP
+// ═══════════════════════════════════════════════════════
+const map = L.map('map', { center:[31.218,121.462], zoom:13, zoomControl:true });
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-  attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors © <a href="https://carto.com/">CARTO</a>',
-  subdomains: 'abcd', maxZoom: 19
+  attribution:'© OpenStreetMap © CARTO', subdomains:'abcd', maxZoom:19
 }).addTo(map);
 
-// ── Hotel marker ──────────────────────────────────────────
-const hotelLat = 31.2480, hotelLng = 121.4530;
+// ═══════════════════════════════════════════════════════
+// UPLOAD & CLAUDE
+// ═══════════════════════════════════════════════════════
+async function handleUpload(event) {
+  const file = event.target.files[0];
+  event.target.value = '';
+  if (!file) return;
 
-const hotelIcon = L.divIcon({
-  className: '',
-  html: `<div style="
-    background:#FFD600;color:#000;
-    width:36px;height:36px;border-radius:10px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:20px;
-    box-shadow:0 3px 10px rgba(0,0,0,.35);
-    border:2.5px solid #fff;
-    cursor:pointer;
-  ">🏨</div>`,
-  iconSize: [36,36], iconAnchor: [18,18]
-});
-
-L.marker([hotelLat, hotelLng], { icon: hotelIcon, zIndexOffset: 500 })
-  .bindPopup(`
-    <div class="pu-top" style="background:#FFD600"></div>
-    <div class="pu-body">
-      <div class="pu-label" style="color:#996600">YOUR HOTEL</div>
-      <div class="pu-name">唯庭世纪酒店</div>
-      <div class="pu-addr">📍 上海静安火车站南广场店</div>
-      <div class="pu-desc">~3km north of 巨富长 district.<br>Metro Line 1 connects you directly to all the shop areas.</div>
-      <a class="pu-btn" href="https://www.google.com/maps/search/?api=1&query=唯庭世纪酒店+上海静安火车站南广场&center=${hotelLat},${hotelLng}" target="_blank" style="background:#FFD600;color:#000">Open in Google Maps →</a>
-    </div>`, { maxWidth: 270 }
-  ).addTo(map);
-
-// Hotel label
-L.marker([hotelLat, hotelLng], {
-  icon: L.divIcon({
-    className: '',
-    html: `<span style="display:inline-block;transform:translate(-50%, 12px);background:#FFD600;color:#000;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;white-space:nowrap;pointer-events:none;box-shadow:0 1px 4px rgba(0,0,0,.2);font-family:-apple-system,sans-serif">唯庭世纪酒店</span>`,
-    iconSize:[0,0], iconAnchor:[0,0]
-  }), interactive: false, zIndexOffset: 400
-}).addTo(map);
-
-// ── Route data ────────────────────────────────────────────
-const DATA = [
-  { id:'r1', streets:[
-    { n:'淮海中路', en:'Huaihai Middle Road', c:'#AB47BC',
-      path:[[31.2173,121.4500],[31.2171,121.4545],[31.2170,121.4584],[31.2169,121.4620],[31.2168,121.4645],[31.2166,121.4695]],
-      shops:[
-        {n:'Masonprince', a:'淮海中路',      d:'漩涡泳池、戴VR的仿真人',   lat:31.2172, lng:121.4543},
-        {n:'Housnowhere', a:'淮海中路',      d:'巨人展、巨型米奇、银色F1', lat:31.2174, lng:121.4580},
-        {n:'Matcha Wang', a:'淮海中路',      d:'刷屏ins的抹茶特调',        lat:31.2170, lng:121.4612},
-        {n:'Hai550',      a:'淮海中路 755号',d:'7层楼的小众设计师集合店',  lat:31.21893,lng:121.46459},
-      ]
-    },
-    { n:'思南路', en:'Sinan Road', c:'#7B1FA2',
-      path:[[31.2222,121.4668],[31.2205,121.4665],[31.2188,121.4663],[31.2170,121.4668],[31.2150,121.4672],[31.2130,121.4675]],
-      shops:[
-        {n:'周公馆',  a:'思南路 73号',    d:'周恩来旧居，免门票不需预约',  lat:31.2197, lng:121.4663},
-        {n:'小嬛嬛',  a:'思南公馆商圈',  d:'人均100+地道宁波菜',           lat:31.2186, lng:121.4671},
-        {n:'思南公馆',a:'思南路 30号',   d:'51栋花园洋房、露天博物馆',     lat:31.21884,lng:121.46609},
-        {n:'古董花园',a:'思南路 44号',   d:'10多年老店，《繁花》取景地',   lat:31.21660,lng:121.46695},
-        {n:'思南书局',a:'复兴中路 517号',d:'4层空间，建筑本身很有味道',    lat:31.21538,lng:121.46921},
-      ]
-    },
-    { n:'新天地', en:'Xintiandi', c:'#3949AB',
-      path:[[31.2208,121.4700],[31.2200,121.4722],[31.2192,121.4745],[31.2180,121.4762],[31.2166,121.4762],[31.2155,121.4758]],
-      shops:[
-        {n:'KWL',                  a:'新天地',d:'2000平韩系服装',               lat:31.21935,lng:121.47498},
-        {n:'伦敦小狗面包',         a:'新天地',d:'高颜值面包',                   lat:31.21920,lng:121.47470},
-        {n:'纽约贝果博物馆',       a:'新天地',d:'新天地老网红',                 lat:31.21905,lng:121.47515},
-        {n:'Piggyoo 人生四格漫画', a:'新天地',d:'弘大同款漫画专门店',           lat:31.21672,lng:121.47488},
-        {n:'三夏社',               a:'新天地',d:'追星女孩必逛',                 lat:31.21660,lng:121.47510},
-        {n:'Looknow Lab',          a:'新天地',d:'超多Jellycat',                 lat:31.21648,lng:121.47532},
-        {n:'HARMAY 话梅',          a:'新天地',d:'各种大牌护肤品化妆品旅行装',   lat:31.21636,lng:121.47500},
-      ]
-    },
-  ]},
-  { id:'r2', streets:[
-    { n:'富民路', en:'Fumin Road', c:'#EF6C00',
-      path:[[31.2228,121.4514],[31.2205,121.4515],[31.21830,121.45177],[31.21737,121.45235],[31.2155,121.4525],[31.2128,121.4530]],
-      shops:[
-        {n:'Cosmos Retro Flower & Vintage',a:'富民路 247号',      d:'复古花卉古着',           lat:31.21830,lng:121.45177},
-        {n:'Supreme',                      a:'富民路 291号',      d:'Supreme旗舰店',          lat:31.21737,lng:121.45235},
-        {n:'Times Remake',                 a:'富民路 291号 104室',d:'潮流古着，与Supreme同楼',lat:31.21748,lng:121.45255},
-      ]
-    },
-    { n:'延庆路', en:'Yanqing Road', c:'#E65100',
-      path:[[31.2157,121.4494],[31.2155,121.4510],[31.21537,121.45153],[31.21542,121.4524],[31.2151,121.4562]],
-      shops:[
-        {n:'MondaySleepingClub',a:'延庆路 72号',d:'潮流概念店',  lat:31.21537,lng:121.45153},
-        {n:'Goodbai',           a:'延庆路 92号',d:'特色精品品牌',lat:31.21542,lng:121.45240},
-      ]
-    },
-    { n:'襄阳北路', en:'Xiangyang North Rd', c:'#D32F2F',
-      path:[[31.2224,121.4550],[31.2200,121.4551],[31.2188,121.4552],[31.2165,121.4554],[31.2138,121.4557]],
-      shops:[{n:'巨浪',a:'襄阳北路 66弄 2号',d:'小众潮牌',lat:31.21897,lng:121.4553}]
-    },
-    { n:'巨鹿路', en:'Julu Road', c:'#C62828',
-      path:[[31.2193,121.4430],[31.2192,121.4462],[31.21911,121.44943],[31.21920,121.4510],[31.2192,121.4558],[31.2192,121.4600]],
-      shops:[
-        {n:'Juice',          a:'巨鹿路 832号',d:'CLOT联名 & 限定发售',lat:31.21911,lng:121.44943},
-        {n:'LABELHOOD HOUSE',a:'巨鹿路 796号',d:'多品牌潮流概念旗舰', lat:31.21922,lng:121.4510},
-      ]
-    },
-    { n:'长乐路', en:'Changle Road', c:'#AD1457',
-      path:[[31.2162,121.4478],[31.21682,121.45079],[31.21740,121.45175],[31.21791,121.45274],[31.21815,121.4558],[31.21830,121.4590]],
-      shops:[
-        {n:'fRUITYSHOP',    a:'长乐路 617号',       d:'特色概念时装店',            lat:31.21682,lng:121.45079},
-        {n:'fly streetwear',a:'长乐路 704号',       d:'滑板 & 街头时尚',           lat:31.21791,lng:121.45274},
-        {n:'Trophy Market', a:'长乐路 774弄 1-22号',d:'复古集市 / 多品牌概念空间', lat:31.21815,lng:121.4558},
-      ]
-    },
-  ]},
-];
-
-// ── Build layers ──────────────────────────────────────────
-const layers = {};
-
-DATA.forEach(route => {
-  layers[route.id] = L.layerGroup().addTo(map);
-  const g = layers[route.id];
-
-  route.streets.forEach(st => {
-    L.polyline(st.path,{color:st.c,weight:14,opacity:.18,lineCap:'round',lineJoin:'round'}).addTo(g);
-    L.polyline(st.path,{color:st.c,weight:6, opacity:.90,lineCap:'round',lineJoin:'round'}).addTo(g);
-
-    const mid = st.path[Math.floor(st.path.length/2)];
-    L.marker(mid,{
-      icon:L.divIcon({
-        className:'',
-        html:`<span style="display:inline-block;transform:translate(-50%,-50%);background:${st.c};color:#fff;padding:2px 10px;border-radius:8px;font-size:11px;font-weight:800;white-space:nowrap;pointer-events:none;box-shadow:0 1px 5px rgba(0,0,0,.25);font-family:-apple-system,sans-serif">${st.n}</span>`,
-        iconSize:[0,0],iconAnchor:[0,0]
-      }),interactive:false,zIndexOffset:-200
-    }).addTo(g);
-
-    st.shops.forEach(s => {
-      const url=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.n+' '+s.a+' 上海')}&center=${s.lat},${s.lng}`;
-      L.marker([s.lat,s.lng],{
-        icon:L.divIcon({
-          className:'',
-          html:`<div style="width:14px;height:14px;border-radius:50%;background:${st.c};border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer"></div>`,
-          iconSize:[14,14],iconAnchor:[7,7]
-        }),zIndexOffset:100
-      }).bindPopup(`
-        <div class="pu-top" style="background:${st.c}"></div>
-        <div class="pu-body">
-          <div class="pu-label" style="color:${st.c}">${st.n} · ${st.en}</div>
-          <div class="pu-name">${s.n}</div>
-          <div class="pu-addr">📍 ${s.a}</div>
-          <div class="pu-desc">${s.d}</div>
-          <a class="pu-btn" href="${url}" target="_blank" style="background:${st.c}">Open in Google Maps →</a>
-        </div>`,{maxWidth:270}).addTo(g);
-    });
-  });
-});
-
-// ── Legend ────────────────────────────────────────────────
-const LegCtrl = L.Control.extend({
-  options:{position:'bottomright'},
-  onAdd(){
-    const d=L.DomUtil.create('div','leg');
-    d.innerHTML=`<div class="leg-row"><div class="leg-hotel">🏨</div><b>Your hotel</b></div><div class="leg-hr"></div>`;
-    DATA.forEach((route,i)=>{
-      if(i) d.innerHTML+='<div class="leg-hr"></div>';
-      const label=route.id==='r1'?'淮海→思南→新天地':'巨富长 Streetwear';
-      const color=route.id==='r1'?'#9C27B0':'#F4511E';
-      d.innerHTML+=`<div class="leg-sec" style="color:${color}">${label}</div>`;
-      route.streets.forEach(s=>{
-        d.innerHTML+=`<div class="leg-row"><div class="leg-bar" style="background:${s.c}"></div>${s.n}</div>`;
-      });
-    });
-    return d;
+  if (!apiKey) {
+    openSettings();
+    toast('Please enter your Claude API key first');
+    return;
   }
-});
-new LegCtrl().addTo(map);
 
-// ── Filter ────────────────────────────────────────────────
-const active=new Set(['r1','r2']);
-function flt(id){
-  if(id==='all'){active.add('r1');active.add('r2');}
-  else if(active.has(id)&&active.size>1)active.delete(id);
-  else active.add(id);
-  ['r1','r2'].forEach(rid=>{
-    active.has(rid)?(!map.hasLayer(layers[rid])&&layers[rid].addTo(map)):(map.hasLayer(layers[rid])&&map.removeLayer(layers[rid]));
-    document.getElementById('b-'+rid).classList.toggle('on',active.has(rid));
+  showLoading('Analysing screenshot...', 'Claude is identifying places');
+
+  try {
+    const base64 = await fileToBase64(file);
+    const mediaType = file.type || 'image/jpeg';
+
+    const prompt = `Analyse this image (screenshot of a travel guide, social media post, or list of places to visit).
+
+Extract ALL places, restaurants, shops, attractions or hotels shown or mentioned.
+
+For EACH place, identify:
+- name: the place name (keep Chinese/original language)
+- nameEn: English translation if available, else null
+- address: most specific address possible (street number + street name)
+- street: just the street name
+- mall: if this place is INSIDE a shopping mall or complex, provide the mall name. If multiple places share the same mall, use EXACTLY the same mall name string. Otherwise null.
+- description: 1-2 sentence description of what makes it special
+- category: one of "food", "shopping", "attraction", "hotel"
+
+City context: ${defaultCity}, China (unless image clearly shows elsewhere).
+
+Return ONLY valid JSON, no markdown fences, no explanation:
+{
+  "city": "city name",
+  "places": [
+    {
+      "name": "...",
+      "nameEn": null,
+      "address": "...",
+      "street": "...",
+      "mall": null,
+      "description": "...",
+      "category": "food"
+    }
+  ]
+}`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 2048,
+        messages: [{ role: 'user', content: [
+          { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
+          { type: 'text', text: prompt }
+        ]}]
+      })
+    });
+
+    if (!resp.ok) {
+      const err = await resp.json();
+      throw new Error(err.error?.message || 'API error');
+    }
+
+    const data = await resp.json();
+    let text = data.content[0].text.trim();
+    // Strip any accidental markdown fences
+    text = text.replace(/^```json\n?/, '').replace(/\n?```$/, '').trim();
+    const result = JSON.parse(text);
+
+    if (!result.places || result.places.length === 0) {
+      throw new Error('No places found in this image');
+    }
+
+    updateLoading('Geocoding locations...', `Found ${result.places.length} place(s)`);
+
+    // Geocode each place
+    const newPlaces = [];
+    for (const p of result.places) {
+      const id = 'p_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+      const coords = await geocode(p.address, result.city || defaultCity);
+      newPlaces.push({ id, ...p, lat: coords?.lat || null, lng: coords?.lng || null,
+        color: CAT_COLOR[p.category] || CAT_COLOR.other });
+      await sleep(300); // be nice to Nominatim
+    }
+
+    places = [...places, ...newPlaces];
+    savePlaces();
+    renderList();
+    plotMarkers();
+
+    const located = newPlaces.filter(p => p.lat).length;
+    toast(`Added ${newPlaces.length} place(s), ${located} plotted on map`);
+
+    // Fit map to new places with coords
+    const pts = newPlaces.filter(p => p.lat).map(p => [p.lat, p.lng]);
+    if (pts.length > 0) {
+      if (pts.length === 1) map.setView(pts[0], 16);
+      else map.fitBounds(L.latLngBounds(pts).pad(.2));
+    }
+
+  } catch (e) {
+    console.error(e);
+    toast('Error: ' + e.message);
+  } finally {
+    hideLoading();
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// GEOCODING
+// ═══════════════════════════════════════════════════════
+async function geocode(address, city) {
+  if (!address) return null;
+  const q = encodeURIComponent(`${address}, ${city}, China`);
+  try {
+    const r = await fetch(
+      `https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1`,
+      { headers: { 'Accept-Language': 'en' } }
+    );
+    const d = await r.json();
+    if (d[0]) return { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
+  } catch(e) {}
+  // Fallback: try just street + city
+  try {
+    const parts = address.split(',')[0];
+    const q2 = encodeURIComponent(`${parts}, ${city}, China`);
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${q2}&format=json&limit=1`,
+      { headers: { 'Accept-Language': 'en' } });
+    const d = await r.json();
+    if (d[0]) return { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
+  } catch(e) {}
+  return null;
+}
+
+// ═══════════════════════════════════════════════════════
+// MAP MARKERS
+// ═══════════════════════════════════════════════════════
+function plotMarkers() {
+  // Clear old markers
+  Object.values(markers).forEach(m => map.removeLayer(m));
+  Object.values(mallMarkers).forEach(m => map.removeLayer(m));
+  markers = {};
+  mallMarkers = {};
+
+  // Group by mall
+  const malls = {};
+  const standalone = [];
+
+  places.forEach(p => {
+    if (p.mall) {
+      if (!malls[p.mall]) malls[p.mall] = [];
+      malls[p.mall].push(p);
+    } else {
+      standalone.push(p);
+    }
   });
-  document.getElementById('b-all').classList.toggle('on',active.size===2);
+
+  // Plot standalone places
+  standalone.forEach(p => {
+    if (!p.lat) return;
+    const icon = L.divIcon({
+      className: '',
+      html: `<div style="width:14px;height:14px;border-radius:50%;background:${p.color};border:2.5px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.4);cursor:pointer"></div>`,
+      iconSize:[14,14], iconAnchor:[7,7]
+    });
+    const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name+' '+p.address)}&center=${p.lat},${p.lng}`;
+    const m = L.marker([p.lat, p.lng], {icon, zIndexOffset:100})
+      .bindPopup(`
+        <div class="pu-top" style="background:${p.color}"></div>
+        <div class="pu-body">
+          <div class="pu-label" style="color:${p.color}">${CAT_LABEL[p.category]||'📍 Place'}</div>
+          <div class="pu-name">${p.name}${p.nameEn ? '<br><span style="font-size:11px;color:#999;font-weight:400">'+p.nameEn+'</span>' : ''}</div>
+          <div class="pu-addr">📍 ${p.address||p.street||''}</div>
+          <div class="pu-desc">${p.description||''}</div>
+          <a class="pu-maps" href="${mapsUrl}" target="_blank" style="background:${p.color}">Open in Google Maps →</a>
+        </div>`, {maxWidth:260})
+      .addTo(map);
+    markers[p.id] = m;
+  });
+
+  // Plot mall groups
+  Object.entries(malls).forEach(([mallName, shops]) => {
+    const withCoords = shops.filter(s => s.lat);
+    if (withCoords.length === 0) return;
+    // Centre of all shop coords
+    const avgLat = withCoords.reduce((s,p)=>s+p.lat,0)/withCoords.length;
+    const avgLng = withCoords.reduce((s,p)=>s+p.lng,0)/withCoords.length;
+
+    const icon = L.divIcon({
+      className:'',
+      html: `<div style="
+        background:#2E7D32;color:#fff;
+        padding:5px 10px;border-radius:20px;
+        font-size:11px;font-weight:800;
+        white-space:nowrap;
+        box-shadow:0 3px 10px rgba(0,0,0,.3);
+        border:2px solid #fff;
+        display:flex;align-items:center;gap:5px;
+        transform:translate(-50%,-50%);
+      ">🏬 ${mallName} <span style="background:rgba(255,255,255,.3);border-radius:10px;padding:1px 6px">${shops.length}</span></div>`,
+      iconSize:[0,0], iconAnchor:[0,0]
+    });
+
+    const shopsHtml = shops.map(s => {
+      const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.name+' '+mallName)}`;
+      return `<div class="mall-pu-item">
+        <strong>${s.name}${s.nameEn ? ' <span style="font-weight:400;color:#aaa">'+s.nameEn+'</span>' : ''}</strong>
+        <span>${s.description||''}</span>
+        <a href="${url}" target="_blank" style="font-size:10px;color:#2196F3;text-decoration:none;display:block;margin-top:2px">Open in Maps →</a>
+      </div>`;
+    }).join('');
+
+    const mallMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mallName)}`;
+
+    const m = L.marker([avgLat, avgLng], {icon, zIndexOffset:200})
+      .bindPopup(`
+        <div class="pu-top" style="background:#2E7D32"></div>
+        <div class="pu-body">
+          <div class="pu-label" style="color:#2E7D32">🏬 Mall / Complex</div>
+          <div class="pu-name">${mallName}</div>
+          <div style="margin:8px 0">${shopsHtml}</div>
+          <a class="pu-maps" href="${mallMapsUrl}" target="_blank" style="background:#2E7D32">Open Mall in Maps →</a>
+        </div>`, {maxWidth:280})
+      .addTo(map);
+    mallMarkers[mallName] = m;
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER LIST
+// ═══════════════════════════════════════════════════════
+function renderList() {
+  const list = document.getElementById('place-list');
+  const count = places.length;
+  document.getElementById('place-count').textContent =
+    count > 0 ? `${count} place${count>1?'s':''} saved` : 'Add places from screenshots';
+
+  if (count === 0) {
+    list.innerHTML = `<div id="empty">
+      <div class="icon">🗺️</div>
+      <h3>No places yet</h3>
+      <p>Tap "Add from Screenshot" to upload a photo or social media post — Claude will identify all the places automatically.</p>
+    </div>`;
+    return;
+  }
+
+  // Group by mall
+  const malls = {};
+  const standalone = [];
+  places.forEach(p => {
+    if (p.mall) { if(!malls[p.mall])malls[p.mall]=[]; malls[p.mall].push(p); }
+    else standalone.push(p);
+  });
+
+  let html = '';
+
+  // Mall groups first
+  Object.entries(malls).forEach(([mallName, shops]) => {
+    html += `<div class="mall-card" id="mall_${CSS.escape(mallName)}">
+      <div class="mall-header" onclick="toggleMall('${mallName.replace(/'/g,"\\'")}')">
+        <div class="mall-icon">🏬</div>
+        <div style="flex:1;min-width:0">
+          <div class="mall-name">${mallName}</div>
+          <div class="mall-count">${shops.length} place${shops.length>1?'s':''}</div>
+        </div>
+        <span class="mall-chevron">▼</span>
+      </div>
+      <div class="mall-shops">`;
+    shops.forEach(s => {
+      html += `<div class="mall-shop-row" onclick="focusPlace('${s.id}')">
+        <div class="mall-shop-dot" style="background:${s.color}"></div>
+        <div class="mall-shop-info">
+          <div class="mall-shop-name">${s.name}</div>
+          <div class="mall-shop-desc">${s.description||s.address||''}</div>
+        </div>
+        <button onclick="event.stopPropagation();deletePlace('${s.id}')" style="border:none;background:none;font-size:14px;cursor:pointer;color:#ccc">✕</button>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+
+  // Standalone places
+  standalone.forEach(p => {
+    html += `<div class="place-card" id="card_${p.id}">
+      <div class="place-row" onclick="focusPlace('${p.id}');toggleCard('${p.id}')">
+        <div class="place-dot" style="background:${p.color}"></div>
+        <div class="place-info">
+          <div class="place-name">${p.name}${p.nameEn?` <span style="font-weight:400;color:#aaa;font-size:11px">${p.nameEn}</span>`:''}</div>
+          <div class="place-addr">${p.address||p.street||'Address unknown'}</div>
+        </div>
+        <span class="cat-badge" style="background:${p.color}">${(p.category||'').toUpperCase()}</span>
+        <button onclick="event.stopPropagation();deletePlace('${p.id}')" style="border:none;background:none;font-size:14px;cursor:pointer;color:#ccc;padding-left:4px">✕</button>
+      </div>
+      <div class="place-desc">${p.description||''}</div>
+    </div>`;
+  });
+
+  list.innerHTML = html;
+}
+
+function toggleCard(id) {
+  document.getElementById('card_'+id)?.classList.toggle('open');
+}
+function toggleMall(name) {
+  const el = document.querySelector(`[id="mall_${CSS.escape(name)}"]`);
+  el?.classList.toggle('open');
+  // Also fly to mall marker
+  if (mallMarkers[name]) {
+    const ll = mallMarkers[name].getLatLng();
+    map.setView(ll, 16);
+    mallMarkers[name].openPopup();
+  }
+}
+function focusPlace(id) {
+  const p = places.find(x=>x.id===id);
+  if (!p || !p.lat) { toast('Location not found for this place'); return; }
+  map.setView([p.lat,p.lng],17);
+  markers[id]?.openPopup();
+}
+function deletePlace(id) {
+  places = places.filter(p=>p.id!==id);
+  savePlaces();
+  renderList();
+  plotMarkers();
+}
+function clearAll() {
+  if (!confirm('Clear all saved places?')) return;
+  places = [];
+  savePlaces();
+  renderList();
+  plotMarkers();
+}
+
+// ═══════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════
+function openSettings() {
+  document.getElementById('api-key-input').value = apiKey;
+  document.getElementById('city-input').value = defaultCity;
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings(e) {
+  if (!e || e.target===document.getElementById('settings-modal'))
+    document.getElementById('settings-modal').classList.remove('open');
+}
+function saveSettings() {
+  apiKey = document.getElementById('api-key-input').value.trim();
+  defaultCity = document.getElementById('city-input').value.trim() || 'Shanghai';
+  localStorage.setItem('tp_apikey', apiKey);
+  localStorage.setItem('tp_city', defaultCity);
+  closeSettings();
+  toast('Settings saved');
+}
+
+// ═══════════════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════════════
+function savePlaces() { localStorage.setItem('tp_places', JSON.stringify(places)); }
+
+function fileToBase64(file) {
+  return new Promise((res,rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+function sleep(ms) { return new Promise(r=>setTimeout(r,ms)); }
+
+function showLoading(text,sub) {
+  document.getElementById('loading-text').textContent=text;
+  document.getElementById('loading-sub').textContent=sub;
+  document.getElementById('loading').classList.add('show');
+}
+function updateLoading(text,sub) {
+  document.getElementById('loading-text').textContent=text;
+  document.getElementById('loading-sub').textContent=sub;
+}
+function hideLoading() { document.getElementById('loading').classList.remove('show'); }
+
+let toastTimer;
+function toast(msg) {
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),3000);
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+if (!apiKey) {
+  setTimeout(()=>{
+    toast('Tap ⚙️ to enter your Claude API key to get started');
+  }, 800);
+}
+renderList();
+plotMarkers();
+
+// Fit map if there are saved places
+const pts = places.filter(p=>p.lat).map(p=>[p.lat,p.lng]);
+if (pts.length > 0) {
+  if (pts.length === 1) map.setView(pts[0], 15);
+  else map.fitBounds(L.latLngBounds(pts).pad(.15));
 }
 </script>
 </body>
